@@ -16,7 +16,7 @@ let myLibrary = [
         author: "J.R.R. Tolkein",
         pages: 956,
         genre: "Fantasy",
-        read: "Has read",
+        read: true,
         id: crypto.randomUUID()
     },
     {
@@ -24,7 +24,7 @@ let myLibrary = [
         author: "Michael Christie",
         pages: 617,
         genre: "Sci-Fi",
-        read: "Has not read",
+        read: false,
         id: crypto.randomUUID()
     }
 ];
@@ -34,18 +34,11 @@ function Book(title, author, pages, genre, read) {
         throw Error('This is an error creating a new book')
     };
 
-    let readStatus;
-        if (read === "true") {
-            readStatus = "Has read";
-        } else {
-            readStatus = "Has not read"
-        };
-
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.genre = genre;
-    this.read = readStatus;
+    this.read = (read === "true" || read === true);
     this.id = crypto.randomUUID();
 };
 
@@ -86,7 +79,7 @@ function displayLibrary() {
 
         const read = document.createElement('div');
             read.setAttribute('id', 'read');
-            read.textContent = `Read: ${book.read}`;
+            read.textContent = "Read: " + `${book.read ? "Has read" : "Has not read"}`;
             
             newCard.append(read);
 
