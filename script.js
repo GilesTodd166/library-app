@@ -60,16 +60,16 @@ class Library {
     addBook(book) {
         this.books.push(book);
     }
-    // removeBook(id) {
-    //     this.id = id;
-    // }
+    removeBook(id) {
+        this.id = id;
+        this.books = this.books.filter(item => item.id !== id);
+    }
 }
 
 // Create instance of Library.
 let library = new Library();
 
 function addBookToLibrary(title, author, pages, genre, read, id) {
-
     library.addBook(new Book(title, author, pages, genre, read, id));
     console.log('book added');
     displayLibrary();
@@ -119,12 +119,9 @@ function displayLibrary() {
             delButton.innerHTML = `Delete Book`;
             delDiv.append(delButton);
 
-            // let id = book.id;
-
             // Delete button functionality
             delButton.addEventListener("click", () => {
-                const bookID = book.id;
-                library.books = library.books.filter(item => item.id !== bookID);
+                library.removeBook(book.id);
 
             displayLibrary();
             });
