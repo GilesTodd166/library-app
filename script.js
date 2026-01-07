@@ -10,48 +10,75 @@ const closeButton = document.getElementById('close');
 const submitButton = document.getElementById('submit');
 const myForm = document.getElementById('bookForm');
 
-let myLibrary = [
-    {
-        title: "The Hobbit",
-        author: "J.R.R. Tolkein",
-        pages: 956,
-        genre: "Fantasy",
-        read: true,
-        id: crypto.randomUUID()
-    },
-    {
-        title: "Greenwood",
-        author: "Michael Christie",
-        pages: 617,
-        genre: "Sci-Fi",
-        read: false,
-        id: crypto.randomUUID()
+// let myLibrary = [
+//     {
+//         title: "The Hobbit",
+//         author: "J.R.R. Tolkein",
+//         pages: 956,
+//         genre: "Fantasy",
+//         read: true,
+//         id: crypto.randomUUID()
+//     },
+//     {
+//         title: "Greenwood",
+//         author: "Michael Christie",
+//         pages: 617,
+//         genre: "Sci-Fi",
+//         read: false,
+//         id: crypto.randomUUID()
+//     }
+// ];
+
+// function Book(title, author, pages, genre, read) {
+//     if (!new.target) {
+//         throw Error('This is an error creating a new book')
+//     };
+
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.genre = genre;
+//     this.read = (read === "true" || read === true);
+//     this.id = crypto.randomUUID();
+// };
+
+class Book {
+    constructor(title, author, pages, genre, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.genre = genre;
+        this.read = read === "true" || read === true;
+        this.id = crypto.randomUUID();
     }
-];
+}
 
-function Book(title, author, pages, genre, read) {
-    if (!new.target) {
-        throw Error('This is an error creating a new book')
-    };
+class Library {
+    constructor() {
+        this.books = [];
+    }
+    addBook(book) {
+        this.books.push(book);
+    }
+    // removeBook(id) {
+    //     this.id = id;
+    // }
+}
 
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.genre = genre;
-    this.read = (read === "true" || read === true);
-    this.id = crypto.randomUUID();
-};
+// Create instance of Library.
+let library = new Library();
 
 function addBookToLibrary(title, author, pages, genre, read, id) {
-    let newBook = new Book(title, author, pages, genre, read, id);
-    myLibrary.push(newBook);
+
+    library.addBook(new Book(title, author, pages, genre, read, id));
+    console.log('book added');
     displayLibrary();
 };
 
 // Loop through myLibrary and display book entires.
 function displayLibrary() {
     cardContainer.innerHTML = '';
-        myLibrary.forEach((book) => {
+        library.books.forEach((book) => {
 
         const newCard = document.createElement('div');
             newCard.setAttribute('id', 'book-card');
@@ -80,7 +107,6 @@ function displayLibrary() {
         const read = document.createElement('div');
             read.setAttribute('id', 'read');
             read.textContent = "Read: " + `${book.read ? "Has read" : "Has not read"}`;
-            
             newCard.append(read);
 
         // Delete Book Button
@@ -93,12 +119,12 @@ function displayLibrary() {
             delButton.innerHTML = `Delete Book`;
             delDiv.append(delButton);
 
-            let id = book.id;
+            // let id = book.id;
 
             // Delete button functionality
             delButton.addEventListener("click", () => {
                 const bookID = book.id;
-                myLibrary = myLibrary.filter(item => item.id !== bookID);
+                library.books = library.books.filter(item => item.id !== bookID);
 
             displayLibrary();
             });
